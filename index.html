@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            width: 600px;
+            overflow: hidden;
+        }
+        li{
+            list-style: none;
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul>
+        <li draggable="true"><img src="images/2.jpg"></li>
+        <li draggable="true"><img src="images/1.jpg"></li>
+        <li draggable="true"><img src="images/5.jpg"></li>
+        <li draggable="true"><img src="images/6.jpg"></li>
+        <li draggable="true"><img src="images/4.jpg"></li>
+        <li draggable="true"><img src="images/9.jpg"></li>
+        <li draggable="true"><img src="images/8.jpg"></li>
+        <li draggable="true"><img src="images/7.jpg"></li>
+        <li draggable="true"><img src="images/3.jpg"></li>
+    </ul>
+
+</div>
+
+<script>
+    // 1. 第一步设置dragggable=“true”
+    // 2. dataTransform 有setData和getData方法 dataTransfer对象可以用来保存被拖动的数据
+    var li = document.querySelectorAll('li')
+    var liArr = Array.prototype.slice.call(li)
+    for (var i = 0; i < liArr.length; i++) {
+        drag(liArr[i])
+    }
+    var dragSrc = null // 用来存储拖拽中的数据
+    function drag(elem) {
+        elem.addEventListener('dragstart', function (e) {
+            dragSrc = this
+            e.dataTransfer.setData('text/html', this.innerHTML)
+        })
+        elem.addEventListener('dragover', function (e) {
+            e.preventDefault()
+        })
+        elem.addEventListener('drop', function (e) {
+            if (dragSrc !== this) {
+                console.log(dragSrc,  this)
+                dragSrc.innerHTML = this.innerHTML
+                this.innerHTML = e.dataTransfer.getData('text/html')
+            }
+        })
+    }
+</script>
+</body>
+</html>
